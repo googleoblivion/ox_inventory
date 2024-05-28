@@ -9,6 +9,7 @@ import { setClipboard } from '../../utils/setClipboard';
 import { useAppSelector } from '../../store';
 import React from 'react';
 import { Menu, MenuItem } from '../utils/menu/Menu';
+import InventoryControl from './InventoryControl';
 
 interface DataProps {
   action: string;

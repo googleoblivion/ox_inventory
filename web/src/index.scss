@@ -7,11 +7,11 @@ $secondaryColorHighlight: #33343F;
 $secondaryColorLight: rgba(0, 0, 0, 0.5);
 $secondaryColorDark: rgba(12, 12, 12, 0.8);
 
-$gridCols: 5;
-$gridRows: 5;
-$gridSize: 10.2vh;
-$gridGap: 2px;
-$containerSize: calc(#{$gridRows} * #{$gridSize + 0.22vh} + #{$gridRows} * #{$gridGap});
+$gridCols: 6;
+$gridRows: 7;
+$gridSize: 10vh;
+$gridGap: 0.5rem;
+$containerSize: calc(#{$gridRows} * #{calc($gridSize + 0.22vh)} + #{$gridRows} * #{$gridGap});
 
 body {
   margin: 0;
@@ -70,7 +70,7 @@ input[type='number']::-webkit-outer-spin-button {
   flex-direction: column;
 }
 
-.context-menu-item  {
+.context-menu-item {
   padding: 8px;
   border-radius: 4px;
   background-color: transparent;
@@ -80,9 +80,11 @@ input[type='number']::-webkit-outer-spin-button {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   &:active {
     transform: none;
   }
+
   &:hover {
     background-color: $secondaryColorHighlight;
     cursor: pointer;
@@ -93,7 +95,7 @@ input[type='number']::-webkit-outer-spin-button {
   padding-top: 5px;
 }
 
-.tooltip-markdown > p {
+.tooltip-markdown>p {
   margin: 0;
 }
 
@@ -111,18 +113,18 @@ button:active {
   left: 0;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 7vh;
+  background-size: calc($gridSize / 1.25);
   image-rendering: -webkit-optimize-contrast;
 }
 
 .inventory-wrapper {
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
   height: 100%;
-
-  gap: 20px;
+  gap: calc($gridGap);
+  justify-content: space-around;
+  background-color: rgba($color: $mainColor, $alpha: 0.75);
 }
 
 .inventory-control {
@@ -130,41 +132,58 @@ button:active {
 
   .inventory-control-wrapper {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    justify-content: center;
+    flex-direction: row;
+    // grid-template-columns: repeat(5, $gridSize * 1.25);
+    // grid-auto-rows: calc($gridSize + 0.22vh);
+    // width: 100%;
+    height: fit-content;
+    align-content: space-between;
+    justify-content: space-between;
     align-items: center;
+    padding: 0.5rem;
+    // border-radius: 0.65rem;
   }
 
   .inventory-control-input {
     transition: 200ms;
-    padding: 16px 8px;
-    border-radius: 2.5%;
+    // padding: 23px 8px;
+    // padding: 1rem 0rem;
+    // height: 53.5%;
+    // border: 1px solid black;
+    // border-radius: 2.5%;
     font-family: $mainFont;
     font-size: 16px;
     text-align: center;
     outline: none;
     border: none;
-    color: #fff;
-    background-color: $secondaryColor;
+    color: #ffffff;
+    background-color: rgba($color: $mainColor, $alpha: 0.3);
+
     &:focus-within {
+      background-color: $secondaryColorDark;
+    }
+    &:hover {
       background-color: $secondaryColorDark;
     }
   }
 
   .inventory-control-button {
-    font-size: 14px;
+    @extend .inventory-slot;
+    font-size: 20px;
     color: #fff;
-    background-color: $secondaryColor;
+    background-color: #22232c00;
     transition: 200ms;
-    padding: 12px 8px;
+    padding: 1rem;
+    height: 53.5%;
     border-radius: 2.5%;
-    border: none;
+    border: 1px solid black;
     text-transform: uppercase;
     font-family: $mainFont;
     width: 100%;
     font-weight: 500;
+
     &:hover {
+      scale: 0.9;
       background-color: $secondaryColorDark;
     }
   }
@@ -206,6 +225,7 @@ button:active {
   align-items: center;
   border-radius: 4px;
   fill: $textColor;
+
   &:hover {
     background-color: $secondaryColorHighlight;
     cursor: pointer;
@@ -239,6 +259,7 @@ button:active {
   fill: white;
   border-radius: 5% !important;
   background-color: $secondaryColor !important;
+
   &:hover {
     background-color: $secondaryColorDark !important;
     cursor: pointer;
@@ -260,14 +281,47 @@ button:active {
 .inventory-grid-wrapper {
   display: flex;
   flex-direction: column;
-  gap: calc($gridGap * 2);
+  height: calc($containerSize * 1.2);
+  // height: fit-content;
+  justify-content: flex-end;
+  border-radius: 2.5%;
+  // background-color: rgba($color: $mainColor, $alpha: 0.9);
+  padding: 1rem;
+  gap: 1rem;
 }
+
 .inventory-grid-header-wrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
   p {
     font-size: 16px;
+  }
+}
+
+.inventory-left-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $gridGap;
+}
+
+.inventory-left-container {
+  display: flex;
+  flex-direction: row;
+  gap: calc($gridGap * 5);
+
+  .inventory-left-hotbar {
+    display: grid;
+    // height: $containerSize;
+    grid-template-columns: repeat(1, $gridSize);
+    grid-auto-rows: calc($gridSize + 0.22vh);
+    gap: $gridGap;
+    overflow: none;
+
+    .inventory-slot {
+      @extend .inventory-slot;
+    }
   }
 }
 
@@ -275,33 +329,38 @@ button:active {
   display: grid;
   height: $containerSize;
   grid-template-columns: repeat($gridCols, $gridSize);
-  grid-auto-rows: $gridSize + 0.22vh;
+  grid-auto-rows: calc($gridSize + 0.22vh);
   gap: $gridGap;
   overflow-y: scroll;
 }
 
 // inventory slots
 .inventory-slot {
+  transition: scale 300ms ease, border-radius 600ms ease, box-shadow 200ms ease-out;
   background-color: $secondaryColor;
   background-repeat: no-repeat;
   background-position: center;
-  border-radius: 2.5%;
   image-rendering: -webkit-optimize-contrast;
   position: relative;
-  background-size: 7vh;
+  background-size: calc($gridSize / 1.5);
   color: $textColor;
-  border-color: rgba(0, 0, 0, 0.2);
+  border-color: rgba(0, 0, 0, 0.9);
   border-style: inset;
   border-width: 1px;
+  &:hover {
+    box-shadow: 2px 2px 1px black;
+    scale: 0.9;
+    border-radius: 5% 10%;
+  }
 }
 
 .inventory-slot-label-box {
-  background-color: $mainColor;
+  background-color: $secondaryColorDark;
   color: $textColor;
   text-align: center;
   border-bottom-left-radius: 0.25vh;
   border-bottom-right-radius: 0.25vh;
-  border-top-color: rgba(0, 0, 0, 0.2);
+  border-top-color: cyan;
   border-top-style: inset;
   border-top-width: 1px;
 }
@@ -311,10 +370,10 @@ button:active {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 2px 3px;
-  font-weight: 400;
+  // padding: 2px 3px;
+  font-weight: 500;
   font-family: $mainFont;
-  font-size: 12px;
+  font-size: calc($gridSize / 10);
 }
 
 .inventory-slot-number {
@@ -325,6 +384,7 @@ button:active {
   border-bottom-right-radius: 0.25vh;
   padding: 3px;
   font-size: 12px;
+  font-weight: 900;
   font-family: $mainFont;
 }
 
@@ -333,6 +393,7 @@ button:active {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+
   p {
     font-size: 12px;
   }
@@ -341,7 +402,7 @@ button:active {
 .item-slot-header-wrapper {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex;
 }
 
 .item-hotslot-header-wrapper {
@@ -352,9 +413,12 @@ button:active {
 .item-slot-info-wrapper {
   display: flex;
   flex-direction: row;
-  align-self: flex-end;
+  justify-content: space-between;
+  text-shadow: 1px 1px 5px black;
+  width: 100%;
   padding: 3px;
   gap: 3px;
+
   p {
     font-size: 12px;
   }
@@ -366,6 +430,7 @@ button:active {
   justify-content: flex-end;
   align-items: center;
   padding-right: 3px;
+
   p {
     font-size: 14px;
     text-shadow: 0.1vh 0.1vh 0 rgba(0, 0, 0, 0.7);
@@ -377,6 +442,7 @@ button:active {
   flex-direction: row;
   justify-content: flex-end;
   padding-right: 3px;
+
   p {
     font-size: 14px;
     text-shadow: 0.1vh 0.1vh 0 rgba(0, 0, 0, 0.7);
@@ -398,6 +464,7 @@ button:active {
   border-color: rgba(0, 0, 0, 0.2);
   border-style: inset;
   border-width: 1px;
+
   p {
     font-size: 12px;
     font-weight: 400;
@@ -409,6 +476,7 @@ button:active {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
   p {
     font-size: 15px;
     font-weight: 400;
@@ -420,9 +488,11 @@ button:active {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+
   svg {
     padding-right: 3px;
   }
+
   p {
     font-size: 14px;
   }
@@ -436,6 +506,7 @@ button:active {
   display: flex;
   flex-direction: row;
   align-items: center;
+
   img {
     width: 28px;
     height: 28px;
@@ -490,6 +561,7 @@ button:active {
   border-top-left-radius: 0.25vh;
   border-top-right-radius: 0.25vh;
   font-family: $mainFont;
+
   p {
     font-size: 11px;
     padding: 2px;
@@ -504,16 +576,20 @@ button:active {
 }
 
 .durability-bar {
-  background: rgba(0, 0, 0, 0.5);
-  height: 3px;
+  background: rgba($color: $mainColor, $alpha: 0);
+  height: 0.225vh !important;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  position: absolute;
   overflow: hidden;
 }
 
 .weight-bar {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px inset rgba(0, 0, 0, 0.1);
-  height: 0.8vh;
-  border-radius: 5%;
+  background: rgba($color: $mainColor, $alpha: 0.5);
+  border: 1px inset rgba($color: $secondaryColorDark, $alpha: 0.5);
+  height: 1vh;
+  border-radius: 2rem;
   overflow: hidden;
 }
 

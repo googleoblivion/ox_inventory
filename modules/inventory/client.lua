@@ -86,13 +86,13 @@ function Inventory.OpenTrunk(entity)
     ---@type number | number[] | nil
     local door = Inventory.CanAccessTrunk(entity)
 
-    if not door then return end
+    if not door then return client.openPrimary end
 
     local coords = GetEntityCoords(entity)
 
     TaskTurnPedToFaceCoord(cache.ped, coords.x, coords.y, coords.z, 0)
 
-    if not client.openInventory('trunk', { netid = NetworkGetNetworkIdFromEntity(entity), entityid = entity, door = door }) then return end
+    if not client.openInventory('trunk', { netid = NetworkGetNetworkIdFromEntity(entity), entityid = entity, door = door }) then return client.openPrimary end
 
     if type(door) == 'table' then
         for i = 1, #door do

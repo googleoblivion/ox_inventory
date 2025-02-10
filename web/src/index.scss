@@ -162,6 +162,7 @@ button:active {
     &:focus-within {
       background-color: $secondaryColorDark;
     }
+
     &:hover {
       background-color: $secondaryColorDark;
     }
@@ -347,6 +348,7 @@ button:active {
   border-color: rgba(0, 0, 0, 0.9);
   border-style: inset;
   border-width: 1px;
+
   &:hover {
     box-shadow: 2px 2px 1px black;
     scale: 0.9;
@@ -627,4 +629,230 @@ button:active {
 .transition-slide-up-exit-active {
   transform: translateY(200px);
   transition: all 200ms;
+}
+
+.slideUp {
+  animation: slideUp 0.5s forwards;
+}
+
+.slideDown {
+  animation: slideDown 0.5s forwards;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.item-notification-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  /* Center horizontally */
+  transform: translateX(-50%);
+  /* Adjust to center it exactly */
+  display: flex;
+  flex-direction: column-reverse;
+  /* Newest notification at the bottom */
+  align-items: center;
+  /* Center the notifications horizontally */
+  gap: 10px;
+  /* Space between notifications */
+  z-index: 1000;
+  /* Ensure it stays on top of other elements */
+}
+
+.item-notification-text-box {
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-container {
+  background-color: rgba($color: $secondaryColorDark, $alpha: 0.75);
+  padding: 50px;
+  border-radius: 10%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: fit-content;
+  position: absolute;
+  color: white;
+}
+
+.modal-overlay label {
+  font-family: $mainFont;
+  font-size: 1em;
+}
+
+.modal-buttons {
+  margin-top: 40px;
+  gap: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-overlay button {
+  padding: 20px 60px;
+  cursor: pointer;
+  border: none;
+  box-shadow: 2px 2px 5px black;
+}
+
+.modal-overlay input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  color: white;
+}
+
+.modal-overlay button.confirm {
+  background-color: $secondaryColor; // Green color for confirmation
+  color: white;
+
+  &:hover {
+    background-color: $secondaryColorDark; // Darker green on hover
+    scale: 0.9;
+  }
+}
+
+.modal-overlay button.cancel {
+  background-color: $secondaryColorLight; // Red color for cancel/destructive action
+  color: white;
+
+  &:hover {
+    background-color: $secondaryColorHighlight; // Darker red on hover
+    scale: 0.9;
+  }
+}
+
+/* Slider container to position the slider and labels */
+.slider-container {
+  position: relative;
+  width: 100%;
+  margin: 0px 0;
+}
+
+/* Style the range input */
+.range-slider {
+  width: 100%;
+  margin: 0;
+  -webkit-appearance: none;
+  /* Override default CSS styles */
+  background: transparent;
+  /* Remove default background */
+}
+
+/* Remove outline on focus */
+.range-slider:focus {
+  outline: none;
+}
+
+/* Slider track */
+.range-slider::-webkit-slider-runnable-track {
+  height: 0.75rem;
+  background: #ddd;
+  border-radius: 4px;
+  position: relative;
+}
+
+/* Slider thumb */
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: rgba($color: teal, $alpha: 1.0);
+  cursor: pointer;
+  border-radius: 50%;
+  margin-top: -4px;
+  /* Center the thumb on the track */
+}
+
+/* Add ticks to the slider track */
+.range-slider::-webkit-slider-runnable-track {
+  background: linear-gradient(to right,
+      #ddd 0%, #ddd calc(25% - 1px),
+      black 25%, black calc(25% + 1px),
+      #ddd calc(25% + 1px), #ddd calc(50% - 1px),
+      black 50%, black calc(50% + 1px),
+      #ddd calc(50% + 1px), #ddd calc(75% - 1px),
+      black 75%, black calc(75% + 1px),
+      #ddd calc(75% + 1px), #ddd 100%);
+}
+
+/* Position the labels */
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1px;
+  /* Adjust spacing as needed */
+  margin-left: 10px;
+}
+
+.slider-label {
+  text-align: center;
+  font-size: 12px;
+  width: fit-content;
+  /* Adjust width to prevent text wrapping */
+}
+
+.quantity-input-container {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  vertical-align: middle;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1em;
+  /* Adjust spacing as needed */
+}
+
+.quantity-input-container label {
+  margin-right: 0.5em;
+  /* Space between label and input */
+}
+
+.quantity-input {
+  background: rgba($color: $secondaryColor, $alpha: 0.5);
+  border: 0.1rem solid black;
+  width: 60px;
+  /* Adjust width as needed */
+  padding: 0px;
+  font-size: 1em;
+  text-align: center;
 }

@@ -25,30 +25,41 @@ export const useItemNotifications = () => {
 };
 
 const ItemNotification = React.forwardRef(
-  (props: { item: ItemNotificationProps; style?: React.CSSProperties }, ref: React.ForwardedRef<HTMLDivElement>) => {
-    const slotItem = props.item.item;
+  (
+    props: { item: ItemNotificationProps; style?: React.CSSProperties },
+    ref: React.ForwardedRef<HTMLDivElement>
+  ) => {
+    const { item } = props.item;
+    const name = Items[item.name]?.label || item.name;
+    const properCasedName = name
+      .toLowerCase()
+      .replace(/(?:^|\s)\S/g, (a) => a.toUpperCase()); // Proper casing
+    const actionText = props.item.text;
 
     return (
       <div
-        className="item-notification-item-box"
-        style={{
-          backgroundImage: `url(${getItemUrl(slotItem) || 'none'}`,
-          ...props.style,
-        }}
+        className="item-notification-text-box"
+        style={props.style}
         ref={ref}
       >
-        <div className="item-slot-wrapper">
-          <div className="item-notification-action-box">
-            <p>{props.item.text}</p>
-          </div>
-          <div className="inventory-slot-label-box">
-            <div className="inventory-slot-label-text">{slotItem.metadata?.label || Items[slotItem.name]?.label}</div>
-          </div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <img
+            src={getItemUrl(item) || 'none'}
+            alt="icon"
+            style={{ width: '20px', height: '20px', marginRight: '10px' }}
+          />
+          <span>
+            <span style={{ color: 'teal', fontWeight: 'bold' }}>
+              {properCasedName}
+            </span>{' '}
+            {actionText}
+          </span>
         </div>
       </div>
     );
   }
 );
+
 
 export const ItemNotificationsProvider = ({ children }: { children: React.ReactNode }) => {
   const queue = useQueue<{
@@ -78,7 +89,7 @@ export const ItemNotificationsProvider = ({ children }: { children: React.ReactN
       {children}
       {createPortal(
         <TransitionGroup className="item-notification-container">
-          {queue.values.map((notification, index) => (
+          {queue.values.reverse().map((notification, index) => (
             <Fade key={`item-notification-${index}`}>
               <ItemNotification item={notification.item} ref={notification.ref} />
             </Fade>
